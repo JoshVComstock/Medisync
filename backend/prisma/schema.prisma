@@ -1,0 +1,151 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model paciente {
+  id                Int        @id @default(autoincrement())
+  nombrePaciente    String // aca en el front realizamos los campos que vayan solo a este campo asi
+  // apellidoPaciente String?
+  // apellidoMaterno  String?
+  sexo              String
+  edadGestional     String[] // ya no int , ya menajariamos los datos en un array donde el primer elemento seria el semana y el segundo dias  --- es de paciente y no de cartilla
+  // edadGestionalDia     Int
+  fechaNacimiento   DateTime // la hora se saca solo de aca 
+  pesoNacimiento    Decimal // lo pasamos aca ya no encartilla por ser dato del paciente como tal 
+  nacimientoTermino Boolean // es de paciente y no de cartilla 
+  // horaNacimiento  DateTime
+  madreRelacion     madre?     @relation(fields: [madreRelacionId], references: [idMadre])
+  madreRelacionId   Int?
+  cartilla          cartilla[]
+}
+
+model madre {
+  idMadre                    Int          @id @default(autoincrement())
+  nombreMadre                String //manejamos el campo del apellido en este mismo campo 
+  // apellidos                  String
+  ci                         String       @db.VarChar(11)
+  direccion                  String
+  detalleDireccion           String?
+  telefono                   String[] // manejamos en este array la cantidad de telefonos que ellos quieran 
+  // telefono2                  String?
+  tratamientoHipertiroidismo Boolean      @default(false)
+  tratamientoHiportiroidismo Boolean      @default(false)
+  tratamiento                String?
+  enfermedad                 String?
+  departamentoRelacion       departamento @relation(fields: [departamentoRelacionId], references: [idDepartamento])
+  departamentoRelacionId     Int
+  paciente                   paciente[]
+}
+
+model cartilla {
+  idCartilla         Int      @id @default(autoincrement())
+  codigoBarras       String
+  fechaTomaMuestras  String
+  NumeroMuestra      Int
+  transfucion        Boolean?
+  fecha              DateTime @default(now())
+  antibioticos       String?
+  notas              String? // por si hay notas relevantes
+  pacienteRelacionId Int
+  pacienteRelacion   paciente @relation(fields: [pacienteRelacionId], references: [id])
+}
+
+//  modelos relacionales logicos 
+model departamento {
+  idDepartamento Int         @id @default(autoincrement())
+  nombreCiudad   String
+  Madre          madre[]
+  provincia      provincia[]
+}
+
+model provincia {
+  idProvincia            Int          @id @default(autoincrement())
+  nombreProvincia        String
+  departamentoRelacionId Int
+  departamentoRelacion   departamento @relation(fields: [departamentoRelacionId], references: [idDepartamento])
+  municipio              municipio[]
+}
+
+model municipio {
+  idMunicipios        Int       @id @default(autoincrement())
+  nombreMunicipio     String
+  provinciaRelacionId Int
+  provinciaRelacion   provincia @relation(fields: [provinciaRelacionId], references: [idProvincia])
+  centro              centro[]
+}
+
+//  entidades de manejo de informacion
+
+model centro {
+  idCentro            Int               @id @default(autoincrement())
+  nombreCentro        String
+  direccion           String
+  telefono            String
+  municipioRelacionId Int
+  municipioRelacion   municipio         @relation(fields: [municipioRelacionId], references: [idMunicipios])
+  area                String
+  contacto            String
+  manejoCartillas     manejoCartillas[]
+}
+
+//  aca en redes es una agrupacion de centros que pertenecen a una red? o solo es un nombre ?
+model redes {
+  idRedes         Int               @id @default(autoincrement())
+  nombreRedes     String
+  manejoCartillas manejoCartillas[]
+}
+
+model hospital {
+  idHospital Int    @id @default(autoincrement())
+  nombre     String
+  telefono   String
+  // completar informacion
+}
+
+// manejo de cartilla 
+// model registroProbincias {
+//   idRegistroProvincias     Int             @id @default(autoincrement())
+//   manejoCartillaRelacionId Int
+//   manejoRelacion           manejoCartillas @relation(fields: [manejoCartillaRelacionId], references: [idManejoCartilla])
+// }
+
+// model registroHospitales {
+//   idRegistroHospitales     Int             @id @default(autoincrement())
+//   manejoCartillaRelacionId Int
+//   manejoRelacion           manejoCartillas @relation(fields: [manejoCartillaRelacionId], references: [idManejoCartilla])
+// }
+
+// model registroFiltros {
+//   idRegistroFiltros        Int             @id @default(autoincrement())
+//   manejoCartillaRelacionId Int
+//   manejoRelacion           manejoCartillas @relation(fields: [manejoCartillaRelacionId], references: [idManejoCartilla])
+// }
+
+model manejoCartillas {
+  idManejoCartilla     Int      @id @default(autoincrement())
+  tipoManejo           String // aca pueden vendra si es de hospitales , provincias , filtros , ya despues es filtrar la informacion por este campo 
+  hora                 DateTime
+  fecha                DateTime
+  centroRelacionId     Int?
+  redesIdRedes         Int?
+  centroRelacion       centro?  @relation(fields: [centroRelacionId], references: [idCentro])
+  redes                redes?   @relation(fields: [redesIdRedes], references: [idRedes])
+  cantidadEntregado    Int?
+  cantidadResivido     Int
+  condigoTarjeta       String[] // aca va un rango de tarjetas 
+  entregadoPor         String? // aca no seria una relacion de usuarios donde filtremos a los que son encargados o un rol que relice estas acciones ?
+  estregoResultadospor String? // aca va nombres y fechas de de esta entrega esto ----- esto cuando se llena ? es en ese momento por que las fechas no coninciden 
+  telefono             String?
+  resividoPor          String? // aca no seria una relacion de usuarios donde filtremos a los que son encargados o un rol que relice estas acciones ?
+}
+
+model user {
+  idUser   Int    @id @default(autoincrement())
+  email    String
+  password String
+}
