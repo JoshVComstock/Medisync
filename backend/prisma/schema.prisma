@@ -43,16 +43,49 @@ model madre {
 }
 
 model cartilla {
-  idCartilla         Int      @id @default(autoincrement())
-  codigoBarras       String
-  fechaTomaMuestras  String
-  NumeroMuestra      Int
-  transfucion        Boolean?
-  fecha              DateTime @default(now())
-  antibioticos       String?
-  notas              String? // por si hay notas relevantes
-  pacienteRelacionId Int
-  pacienteRelacion   paciente @relation(fields: [pacienteRelacionId], references: [id])
+  idCartilla            Int                     @id @default(autoincrement())
+  codigoBarras          String
+  fechaTomaMuestras     String
+  NumeroMuestra         Int
+  transfucion           Boolean?
+  fecha                 DateTime                @default(now())
+  antibioticos          String?
+  notas                 String? // por si hay notas relevantes
+  pacienteRelacionId    Int
+  pacienteRelacion      paciente                @relation(fields: [pacienteRelacionId], references: [id])
+  // aca podriamos referenciarlo con hospitales o centros , para saber donde se lleno la cartilla 
+  centroRelacionId      Int?
+  hospitalRelacionId    Int?
+  redesRelacionId       Int?
+  resultadosLaboratorio resultadosLaboratorio[]
+}
+
+model laboratorio {
+  idLaboratorio         Int                     @id @default(autoincrement())
+  nombreLaboratorio     String
+  registroLaboratorio   Int
+  direccion             String?
+  telefono              String[]
+  municipioRelacionId   Int
+  municipioRelacion     municipio               @relation(fields: [municipioRelacionId], references: [idMunicipios])
+  resultadosLaboratorio resultadosLaboratorio[]
+}
+
+//   en este pasariamos la cartilla o se aria automaticamente?
+//es decir que cuando llenemos los datos de la cartilla seria la solicitud de analizis ? 
+
+model resultadosLaboratorio {
+  idResultadosLaboratorio Int         @id @default(autoincrement())
+  laboratorioRelacionId   Int
+  laboratorioRelacion     laboratorio @relation(fields: [laboratorioRelacionId], references: [idLaboratorio])
+  //  es mejor relacionarlo con el paciente o con la cartilla ?
+  cartillaRelacionId      Int
+  cartillaRelacion        cartilla    @relation(fields: [cartillaRelacionId], references: [idCartilla])
+  userRelacionId          Int // para el campo solicitante
+  userRelacion            user        @relation(fields: [userRelacionId], references: [idUser])
+  fechaResultado          DateTime    @default(now())
+  resultado               String
+  notas                   String
 }
 
 //  modelos relacionales logicos 
@@ -72,11 +105,12 @@ model provincia {
 }
 
 model municipio {
-  idMunicipios        Int       @id @default(autoincrement())
+  idMunicipios        Int           @id @default(autoincrement())
   nombreMunicipio     String
   provinciaRelacionId Int
-  provinciaRelacion   provincia @relation(fields: [provinciaRelacionId], references: [idProvincia])
+  provinciaRelacion   provincia     @relation(fields: [provinciaRelacionId], references: [idProvincia])
   centro              centro[]
+  laboratorio         laboratorio[]
 }
 
 //  entidades de manejo de informacion
@@ -84,8 +118,8 @@ model municipio {
 model centro {
   idCentro            Int               @id @default(autoincrement())
   nombreCentro        String
-  direccion           String
-  telefono            String
+  direccion           String?
+  telefono            String[]
   municipioRelacionId Int
   municipioRelacion   municipio         @relation(fields: [municipioRelacionId], references: [idMunicipios])
   area                String
@@ -131,6 +165,7 @@ model manejoCartillas {
   tipoManejo           String // aca pueden vendra si es de hospitales , provincias , filtros , ya despues es filtrar la informacion por este campo 
   hora                 DateTime
   fecha                DateTime
+  // creo los hospitales lo conocen como redes en los campos lo tienen como redes / hospitales 
   centroRelacionId     Int?
   redesIdRedes         Int?
   centroRelacion       centro?  @relation(fields: [centroRelacionId], references: [idCentro])
@@ -145,7 +180,8 @@ model manejoCartillas {
 }
 
 model user {
-  idUser   Int    @id @default(autoincrement())
-  email    String
-  password String
+  idUser                Int                     @id @default(autoincrement())
+  email                 String
+  password              String
+  resultadosLaboratorio resultadosLaboratorio[]
 }
