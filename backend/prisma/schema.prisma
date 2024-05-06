@@ -21,6 +21,7 @@ model paciente {
   // horaNacimiento  DateTime
   madreRelacion     madre?     @relation(fields: [madreRelacionId], references: [idMadre])
   madreRelacionId   Int?
+  estadoRegistro    Boolean    @default(true)
   cartilla          cartilla[]
 }
 
@@ -39,7 +40,9 @@ model madre {
   enfermedad                 String?
   departamentoRelacion       departamento @relation(fields: [departamentoRelacionId], references: [idDepartamento])
   departamentoRelacionId     Int
-  paciente                   paciente[]
+  estadoRegistro             Boolean      @default(true)
+
+  paciente paciente[]
 }
 
 model cartilla {
@@ -57,6 +60,7 @@ model cartilla {
   centroRelacionId      Int?
   hospitalRelacionId    Int?
   redesRelacionId       Int?
+  estadoRegistro        Boolean                 @default(true)
   resultadosLaboratorio resultadosLaboratorio[]
 }
 
@@ -67,6 +71,7 @@ model laboratorio {
   direccion             String?
   telefono              String[]
   municipioRelacionId   Int
+  estadoRegistro        Boolean                 @default(true)
   municipioRelacion     municipio               @relation(fields: [municipioRelacionId], references: [idMunicipios])
   resultadosLaboratorio resultadosLaboratorio[]
 }
@@ -86,12 +91,14 @@ model resultadosLaboratorio {
   fechaResultado          DateTime    @default(now())
   resultado               String
   notas                   String
+  estadoRegistro          Boolean     @default(true)
 }
 
 //  modelos relacionales logicos 
 model departamento {
   idDepartamento Int         @id @default(autoincrement())
   nombreCiudad   String
+  estadoRegistro Boolean     @default(true)
   Madre          madre[]
   provincia      provincia[]
 }
@@ -100,6 +107,7 @@ model provincia {
   idProvincia            Int          @id @default(autoincrement())
   nombreProvincia        String
   departamentoRelacionId Int
+  estadoRegistro         Boolean      @default(true)
   departamentoRelacion   departamento @relation(fields: [departamentoRelacionId], references: [idDepartamento])
   municipio              municipio[]
 }
@@ -108,6 +116,7 @@ model municipio {
   idMunicipios        Int           @id @default(autoincrement())
   nombreMunicipio     String
   provinciaRelacionId Int
+  estadoRegistro      Boolean       @default(true)
   provinciaRelacion   provincia     @relation(fields: [provinciaRelacionId], references: [idProvincia])
   centro              centro[]
   laboratorio         laboratorio[]
@@ -123,6 +132,7 @@ model centro {
   municipioRelacionId Int
   municipioRelacion   municipio         @relation(fields: [municipioRelacionId], references: [idMunicipios])
   area                String
+  estadoRegistro      Boolean           @default(true)
   contacto            String
   manejoCartillas     manejoCartillas[]
 }
@@ -131,13 +141,15 @@ model centro {
 model redes {
   idRedes         Int               @id @default(autoincrement())
   nombreRedes     String
+  estadoRegistro  Boolean           @default(true)
   manejoCartillas manejoCartillas[]
 }
 
 model hospital {
-  idHospital Int    @id @default(autoincrement())
-  nombre     String
-  telefono   String
+  idHospital     Int     @id @default(autoincrement())
+  nombre         String
+  telefono       String
+  estadoRegistro Boolean @default(true)
   // completar informacion
 }
 
@@ -177,11 +189,14 @@ model manejoCartillas {
   estregoResultadospor String? // aca va nombres y fechas de de esta entrega esto ----- esto cuando se llena ? es en ese momento por que las fechas no coninciden 
   telefono             String?
   resividoPor          String? // aca no seria una relacion de usuarios donde filtremos a los que son encargados o un rol que relice estas acciones ?
+  estadoRegistro       Boolean  @default(true)
 }
 
 model user {
-  idUser                Int                     @id @default(autoincrement())
-  email                 String
-  password              String
+  idUser         Int     @id @default(autoincrement())
+  email          String
+  password       String
+  estadoRegistro Boolean @default(true)
+
   resultadosLaboratorio resultadosLaboratorio[]
 }
