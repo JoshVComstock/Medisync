@@ -1,15 +1,15 @@
 const express = require("express");
-const { ciudadController } = require("../controllers/entidades/ciudad");
+const { departamentoController } = require("../controllers/entidades/ciudad");
 const { centroController } = require("../controllers/entidades/centro");
 const { municipioController } = require("../controllers/entidades/municipio");
 const { provinciaController } = require("../controllers/entidades/provincia");
 const { redesController } = require("../controllers/entidades/redes");
 const router = express.Router();
 // -------------rutas de ciudades----------------
-router.get("/ciudad", ciudadController.getAllciudades);
-router.post("/ciudad", ciudadController.createCiudades);
-router.put("/ciudad/:id", ciudadController.updateCiudades);
-router.delete("/ciudad/:id", ciudadController.deleteCiudades);
+router.get("/departamento", departamentoController.getAlldepartamento);
+router.post("/departamento", departamentoController.createdepartamento);
+router.put("/departamento/:id", departamentoController.updatedepartamento);
+router.delete("/departamento/:id", departamentoController.deletedepartamento);
 // -------------rutas de centro----------------
 router.get("/centro", centroController.getAllCentro);
 router.post("/centro", centroController.createCentro);

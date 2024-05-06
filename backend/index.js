@@ -5,6 +5,11 @@ const app = express();
 const port = 3000;
 const pacienteRoute = require("./routes/routeGestionPaciente");
 const getEntidades = require("./routes/routeEntidades");
+const controlEstadoMiddleware = require("./middleware/control_estado_middleware");
+const { PrismaClient } = require("@prisma/client");
+const prisma = new PrismaClient();
+
+prisma.$use(controlEstadoMiddleware);
 
 app.use(cors());
 app.use(

@@ -5,10 +5,10 @@ const {
   deleteData,
 } = require("../../utils/layautEntidades");
 
-const ciudadController = {
-  getAllciudades: async (req, res) => {
+const departamentoController = {
+  getAlldepartamento: async (req, res) => {
     try {
-      const getAll = await getAllData("ciudad");
+      const getAll = await getAllData("departamento");
       res
         .status(200)
         .json({ message: "datos obtenidos correctamente ", data: getAll });
@@ -17,9 +17,9 @@ const ciudadController = {
     }
   },
 
-  createCiudades: async (req, res) => {
+  createdepartamento: async (req, res) => {
     try {
-      const newData = await createData("ciudad", req.body);
+      const newData = await createData("departamento", req.body);
       res
         .status(201)
         .json({ message: "Datos creados correctamente", data: newData });
@@ -27,29 +27,29 @@ const ciudadController = {
       res.status(500).json({ error: error.message });
     }
   },
-  updateCiudades: async (req, res) => {
+  updatedepartamento: async (req, res) => {
     try {
       const id = Number(req.params.id);
-      const updateciudad = await updateData("ciudad", req.body, {
-        idCiudad: id,
+      const updatedepartamento = await updateData("departamento", req.body, {
+        idDepartamento: id,
       });
       res.status(201).json({
         message: "Datos actualizados correctamente",
-        data: updateciudad,
+        data: updatedepartamento,
       });
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
   },
-  deleteCiudades: async (req, res) => {
+  deletedepartamento: async (req, res) => {
     try {
       const id = Number(req.params.id);
-      const updateciudad = await deleteData("ciudad", {
-        idCiudad: id,
+      const updatedepartamento = await deleteData("departamento", {
+        idDepartamento: id,
       });
       res.status(201).json({
         message: "Datos elimiados correctamente",
-        data: updateciudad,
+        data: updatedepartamento,
       });
     } catch (error) {
       res.status(500).json({ error: error.message });
@@ -57,4 +57,4 @@ const ciudadController = {
   },
 };
 
-module.exports = { ciudadController };
+module.exports = { departamentoController };
