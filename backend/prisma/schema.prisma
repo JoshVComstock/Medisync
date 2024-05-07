@@ -9,16 +9,12 @@ datasource db {
 
 model paciente {
   id                Int        @id @default(autoincrement())
-  nombrePaciente    String // aca en el front realizamos los campos que vayan solo a este campo asi
-  // apellidoPaciente String?
-  // apellidoMaterno  String?
+  nombrePaciente    String
   sexo              String
   edadGestional     String[] // ya no int , ya menajariamos los datos en un array donde el primer elemento seria el semana y el segundo dias  --- es de paciente y no de cartilla
-  // edadGestionalDia     Int
   fechaNacimiento   DateTime // la hora se saca solo de aca 
   pesoNacimiento    Decimal // lo pasamos aca ya no encartilla por ser dato del paciente como tal 
   nacimientoTermino Boolean // es de paciente y no de cartilla 
-  // horaNacimiento  DateTime
   madreRelacion     madre?     @relation(fields: [madreRelacionId], references: [idMadre])
   madreRelacionId   Int?
   estadoRegistro    Boolean    @default(true)
@@ -28,21 +24,19 @@ model paciente {
 model madre {
   idMadre                    Int          @id @default(autoincrement())
   nombreMadre                String //manejamos el campo del apellido en este mismo campo 
-  // apellidos                  String
   ci                         String       @db.VarChar(11)
   direccion                  String
   detalleDireccion           String?
   telefono                   String[] // manejamos en este array la cantidad de telefonos que ellos quieran 
-  // telefono2                  String?
   tratamientoHipertiroidismo Boolean      @default(false)
   tratamientoHiportiroidismo Boolean      @default(false)
   tratamiento                String?
   enfermedad                 String?
-  departamentoRelacion       departamento @relation(fields: [departamentoRelacionId], references: [idDepartamento])
+  departamentoRelacion       departamento @relation(fields: [departamentoRelacionId], references: [idDepartamento]) //viene en el campo de la cartilla
   departamentoRelacionId     Int
   estadoRegistro             Boolean      @default(true)
-
-  paciente paciente[]
+  idUsuarioCreacion          Int
+  paciente                   paciente[]
 }
 
 model cartilla {
@@ -83,7 +77,6 @@ model resultadosLaboratorio {
   idResultadosLaboratorio Int         @id @default(autoincrement())
   laboratorioRelacionId   Int
   laboratorioRelacion     laboratorio @relation(fields: [laboratorioRelacionId], references: [idLaboratorio])
-  //  es mejor relacionarlo con el paciente o con la cartilla ?
   cartillaRelacionId      Int
   cartillaRelacion        cartilla    @relation(fields: [cartillaRelacionId], references: [idCartilla])
   userRelacionId          Int // para el campo solicitante
@@ -193,10 +186,12 @@ model manejoCartillas {
 }
 
 model user {
-  idUser         Int     @id @default(autoincrement())
-  email          String
-  password       String
-  estadoRegistro Boolean @default(true)
-
+  idUser                Int                     @id @default(autoincrement())
+  email                 String
+  password              String
+  estadoRegistro        Boolean                 @default(true)
+  hospitalRelacionId    Int
+  centroRelacionId      Int
+  laboratorioRelacionId Int
   resultadosLaboratorio resultadosLaboratorio[]
 }

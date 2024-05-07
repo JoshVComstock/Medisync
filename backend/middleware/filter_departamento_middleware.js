@@ -1,11 +1,19 @@
-const prisma = new PrismaClient().$extends({
+const { PrismaClient } = require("@prisma/client");
+const prisma = new PrismaClient();
+
+const xprismaDepartameto = prisma.$extends({
   query: {
     $allModels: {
-      async findMany({ model, operation, args, query }) {
-        args = { estadoRegistro: true, ...args };
-
+      findMany({ args, query }) {
+        args.where = {
+          ...args.where,
+          estadoRegistro: true,
+          ciudad: args.ciudad,
+        };
         return query(args);
       },
     },
   },
 });
+
+module.exports = xprismaDepartameto;

@@ -1,11 +1,13 @@
 const xprisma = require("../middleware/control_estado_middleware");
 
-const getAllData = async (tabla) => {
+const getAllGestion = async (tabla, filter) => {
   try {
     if (!xprisma[tabla]) {
       throw new Error(`La tabla ${tabla} no es válida`);
     }
-    return await xprisma[tabla].findMany({});
+    return await xprisma[tabla].findMany({
+      args: { where: { filter } },
+    });
   } catch (error) {
     throw new Error(
       `Error al obtener los datos de la tabla ${tabla}: ${error.message}`
@@ -13,7 +15,7 @@ const getAllData = async (tabla) => {
   }
 };
 
-const createData = async (tabla, data) => {
+const createGestion = async (tabla, data) => {
   try {
     if (!xprisma[tabla]) {
       throw new Error(`La tabla ${tabla} no es válida`);
@@ -25,7 +27,7 @@ const createData = async (tabla, data) => {
     );
   }
 };
-const updateData = async (tabla, data, id) => {
+const updateGestion = async (tabla, data, id) => {
   try {
     if (!xprisma[tabla]) {
       throw new Error(`La tabla ${tabla} no es válida`);
@@ -40,7 +42,7 @@ const updateData = async (tabla, data, id) => {
     );
   }
 };
-const deleteData = async (tabla, id) => {
+const deleteGestion = async (tabla, id) => {
   try {
     if (!xprisma[tabla]) {
       throw new Error(`La tabla ${tabla} no es válida`);
@@ -55,4 +57,4 @@ const deleteData = async (tabla, id) => {
   }
 };
 
-module.exports = { getAllData, createData, updateData, deleteData };
+module.exports = { getAllGestion, createGestion, updateGestion, deleteGestion };
