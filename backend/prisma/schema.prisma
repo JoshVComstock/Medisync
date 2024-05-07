@@ -128,9 +128,9 @@ model centro {
   telefono               String[]
   municipioRelacionId    Int
   municipioRelacion      municipio         @relation(fields: [municipioRelacionId], references: [idMunicipios])
-  area                   String
+  // area                   String
   estadoRegistro         Boolean           @default(true)
-  contacto               String
+  // contacto               String   ////quisas no es necesario por que ya tenemos los telefonos
   idUsuarioCreacion      Int
   redPertenenciaId       Int?
   redPertenenciaRelacion redes?            @relation(fields: [redPertenenciaId], references: [idRedes])
@@ -153,7 +153,7 @@ model hospital {
   nombre                 String
   direccion              String?
   telefono               String[]
-  area                   String // dudable
+  // area                   String // dudable
   contacto               String
   user                   user[]
   municipioRelacionId    Int
@@ -192,7 +192,7 @@ enum TipoManejo {
 
 model user {
   idUser                Int                     @id @default(autoincrement())
-  email                 String
+  email                 String                  @unique()
   password              String
   estadoRegistro        Boolean                 @default(true)
   hospitalRelacionId    Int?
