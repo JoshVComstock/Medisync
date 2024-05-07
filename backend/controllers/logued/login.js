@@ -15,16 +15,34 @@ const Logincontroller = async (req, res) => {
     if (!userLog) {
       return res.status(401).json({ message: "Usuario no encontrado" });
     }
-    const passwordMatch = await bcrypt.compare(password, userLog.password);
+    user = userLog[0];
+
+    const passwordMatch = await bcrypt.compare(password, user.password);
     if (!passwordMatch) {
       return res.status(401).json({ message: "Credenciales inválidas" });
     }
 
-    const token = generateToken(userLog);
+    const token = generateToken(user);
     res.json({ token });
+
+    verificar(token);
   } catch (error) {
     console.log(error);
     return res.status(500).json({ message: "error: " + error });
   }
 };
+
+const jwt = require("jsonwebtoken");
+
+const verificar = (token) => {
+  const claveSecreta = "PesquisasV22024";
+  jwt.verify(token, claveSecreta, (error, decoded) => {
+    if (error) {
+      console.error("Error al decodificar el token:", error);
+    } else {
+      console.log("Token decodificado:", decoded);
+    }
+  });
+};
+
 module.exports = { Logincontroller };

@@ -1,9 +1,5 @@
-const {
-    getAllData,
-    createData,
-    updateData,
-    deleteData,
-  } = require("../../utils/layautEntidades");
+const { getAllData, createData, updateData, deleteData } = require("../../utils/layautEntidades");
+
   
   const centroController = {
     getAllCentro: async (req, res) => {

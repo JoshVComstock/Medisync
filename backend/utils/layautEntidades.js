@@ -1,6 +1,6 @@
 const xprisma = require("../middleware/control_estado_middleware");
 
-const getAllGestion = async (tabla, filter) => {
+const getAllData = async (tabla, filter) => {
   try {
     if (!xprisma[tabla]) {
       throw new Error(`La tabla ${tabla} no es válida`);
@@ -15,7 +15,7 @@ const getAllGestion = async (tabla, filter) => {
   }
 };
 
-const createGestion = async (tabla, data) => {
+const createData = async (tabla, data) => {
   try {
     if (!xprisma[tabla]) {
       throw new Error(`La tabla ${tabla} no es válida`);
@@ -27,7 +27,7 @@ const createGestion = async (tabla, data) => {
     );
   }
 };
-const updateGestion = async (tabla, data, id) => {
+const updateData = async (tabla, data, id) => {
   try {
     if (!xprisma[tabla]) {
       throw new Error(`La tabla ${tabla} no es válida`);
@@ -42,7 +42,7 @@ const updateGestion = async (tabla, data, id) => {
     );
   }
 };
-const deleteGestion = async (tabla, id) => {
+const deleteData = async (tabla, id) => {
   try {
     if (!xprisma[tabla]) {
       throw new Error(`La tabla ${tabla} no es válida`);
@@ -57,4 +57,4 @@ const deleteGestion = async (tabla, id) => {
   }
 };
 
-module.exports = { getAllGestion, createGestion, updateGestion, deleteGestion };
+module.exports = { getAllData, createData, updateData, deleteData };

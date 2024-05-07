@@ -3,12 +3,12 @@ const {
     createData,
     updateData,
     deleteData,
-  } = require("../../utils/layautEntidades");
+  } = require("../../../utils/layautEntidades");
   
-  const redesController = {
-    getAllRedes: async (req, res) => {
+  const centroController = {
+    getAllCentro: async (req, res) => {
       try {
-        const getAll = await getAllData("redes");
+        const getAll = await getAllData("centro");
         res
           .status(200)
           .json({ message: "datos obtenidos correctamente ", data: getAll });
@@ -17,9 +17,9 @@ const {
       }
     },
   
-    createRedes: async (req, res) => {
+    createcentro: async (req, res) => {
       try {
-        const newData = await createData("redes", req.body);
+        const newData = await createData("centro", req.body);
         res
           .status(201)
           .json({ message: "Datos creados correctamente", data: newData });
@@ -27,11 +27,11 @@ const {
         res.status(500).json({ error: error.message });
       }
     },
-    updateRedes: async (req, res) => {
+    updatecentro: async (req, res) => {
       try {
         const id = Number(req.params.id);
-        const updateR = await updateData("redes", req.body, {
-          idRedes: id,
+        const updateR = await updateData("centro", req.body, {
+          idcentro: id,
         });
         res.status(201).json({
           message: "Datos actualizados correctamente",
@@ -41,11 +41,11 @@ const {
         res.status(500).json({ error: error.message });
       }
     },
-    deleteRedes: async (req, res) => {
+    deletecentro: async (req, res) => {
       try {
         const id = Number(req.params.id);
-        const deleteC = await deleteData("redes", {
-          idRedes: id,
+        const deleteC = await deleteData("centro", {
+          idcentro: id,
         });
         res.status(201).json({
           message: "Datos elimiados correctamente",
@@ -57,5 +57,5 @@ const {
     },
   };
   
-  module.exports = { redesController };
+  module.exports = { centroController };
   
