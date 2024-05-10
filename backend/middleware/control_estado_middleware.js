@@ -1,9 +1,10 @@
 const { PrismaClient } = require("@prisma/client");
+const { obtenerRelacion } = require("../utils/typeId");
 const prisma = new PrismaClient();
 
 function xprismaMiddleware(req, res, next) {
   const tokenInfo = req.tokenDecodificado;
-  console.log(tokenInfo);
+  const relacion = obtenerRelacion(tokenInfo);
   const extendedPrisma = prisma.$extends({
     query: {
       $allModels: {
@@ -13,7 +14,7 @@ function xprismaMiddleware(req, res, next) {
             ...args.where,
             estadoRegistro: true,
             idUsuarioCreacion: {
-              has: `centroId:${centroId}`,
+              has: relacion,
             },
           };
           return query(args);

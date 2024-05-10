@@ -1,4 +1,5 @@
 const { PrismaClient } = require("@prisma/client");
+const { obtenerRelacion } = require("./typeId");
 const prisma = new PrismaClient();
 const getAllData = async (req, tabla) => {
   try {
@@ -20,18 +21,8 @@ const createData = async (tabla, data, dataToken) => {
     if (!prisma[tabla]) {
       throw new Error(`La tabla ${tabla} no es válida`);
     }
-    console.log(dataToken);
     const userId = dataToken.userId;
-
-    if (dataToken.idHospital) {
-      relacion = `idHospital:${dataToken.idHospital}`;
-    }
-    if (dataToken.centroId) {
-      relacion = `centroId:${dataToken.centroId}`;
-    }
-    if (dataToken.idLaboratorio) {
-      relacion = `idLaboratorio:${dataToken.idLaboratorio}`;
-    }
+    const relacion = obtenerRelacion(dataToken);
     return await prisma[tabla].create({
       data: {
         ...data,
