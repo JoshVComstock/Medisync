@@ -62,18 +62,8 @@ router.delete("/provincia/:id", provinciaController.deleteProvincia);
 
 // -------------rutas de entidades que manejaran informacion----------------
 
-router.get(
-  "/hospital",
-  decodeToken,
-  xprismaMiddleware,
-  hospitalController.getAllHospital
-);
-router.post(
-  "/hospital",
-  decodeToken,
-  xprismaMiddleware,
-  hospitalController.createHospital
-);
+router.get("/hospital", hospitalController.getAllHospital);
+router.post("/hospital", hospitalController.createHospital);
 router.put("/hospital/:id", hospitalController.updateHospital);
 router.delete("/hospital/:id", hospitalController.deleteHospital);
 
