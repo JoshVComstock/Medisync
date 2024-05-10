@@ -8,7 +8,7 @@ const {
 const municipioController = {
   getAllCentro: async (req, res) => {
     try {
-      const getAll = await getAllData("centro");
+      const getAll = await getAllData(req,"centro");
       res
         .status(200)
         .json({ message: "datos obtenidos correctamente ", data: getAll });
@@ -19,7 +19,9 @@ const municipioController = {
 
   createMunicipio: async (req, res) => {
     try {
-      const newData = await createData("municipio", req.body);
+      const dataToken = req.tokenDecodificado;
+
+      const newData = await createData("municipio", req.body, dataToken);
       res
         .status(201)
         .json({ message: "Datos creados correctamente", data: newData });

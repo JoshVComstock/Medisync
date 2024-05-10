@@ -21,5 +21,15 @@ const userController = {
       return res.status(500).json({ message: "error: " + error });
     }
   },
+  getUser: async (req, res) => {
+    try {
+      const getUser = await prisma.user.findMany();
+      console.log(getUser);
+      res.json(getUser);
+    } catch (error) {
+      console.log(error);
+      res.json(error);
+    }
+  },
 };
 module.exports = { userController };

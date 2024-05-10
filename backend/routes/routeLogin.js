@@ -8,5 +8,6 @@ router.post("/login", Logincontroller);
 
 // gestionar user
 router.post("/crate-user", userController.createUser);
+router.get("/user", userController.getUser);
 
 module.exports = router;

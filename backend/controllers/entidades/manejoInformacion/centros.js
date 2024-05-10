@@ -31,7 +31,7 @@ const {
       try {
         const id = Number(req.params.id);
         const updateR = await updateData("centro", req.body, {
-          idcentro: id,
+          idCentro: id,
         });
         res.status(201).json({
           message: "Datos actualizados correctamente",
@@ -45,7 +45,7 @@ const {
       try {
         const id = Number(req.params.id);
         const deleteC = await deleteData("centro", {
-          idcentro: id,
+          idCentro: id,
         });
         res.status(201).json({
           message: "Datos elimiados correctamente",

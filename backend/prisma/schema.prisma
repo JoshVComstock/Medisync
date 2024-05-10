@@ -17,7 +17,7 @@ model paciente {
   nacimientoTermino Boolean
   madreRelacion     madre?     @relation(fields: [madreRelacionId], references: [idMadre])
   madreRelacionId   Int?
-  idUsuarioCreacion Int
+  idUsuarioCreacion String[]
   estadoRegistro    Boolean    @default(true)
   cartilla          cartilla[]
 }
@@ -37,7 +37,7 @@ model madre {
   departamentoRelacionId     Int
   estadoRegistro             Boolean      @default(true)
   paciente                   paciente[]
-  idUsuarioCreacion          Int
+  idUsuarioCreacion          String[]
 }
 
 model cartilla {
@@ -56,7 +56,7 @@ model cartilla {
   redesRelacionId       Int?
   estadoRegistro        Boolean                 @default(true)
   resultadosLaboratorio resultadosLaboratorio[]
-  idUsuarioCreacion     Int
+  idUsuarioCreacion     String[]
 }
 
 model resultadosLaboratorio {
@@ -70,7 +70,7 @@ model resultadosLaboratorio {
   fechaResultado            DateTime    @default(now())
   resultado                 String
   observaciones             String
-  idUsuarioCreacion         Int
+  idUsuarioCreacion         String[]
   estadoRegistro            Boolean     @default(true)
 }
 
@@ -79,7 +79,7 @@ model departamento {
   idDepartamento    Int         @id @default(autoincrement())
   nombreCiudad      String
   estadoRegistro    Boolean     @default(true)
-  idUsuarioCreacion Int
+  idUsuarioCreacion String[]
   Madre             madre[]
   provincia         provincia[]
 }
@@ -88,7 +88,7 @@ model provincia {
   idProvincia            Int          @id @default(autoincrement())
   nombreProvincia        String
   departamentoRelacionId Int
-  idUsuarioCreacion      Int
+  idUsuarioCreacion      String[]
   estadoRegistro         Boolean      @default(true)
   departamentoRelacion   departamento @relation(fields: [departamentoRelacionId], references: [idDepartamento])
   municipio              municipio[]
@@ -98,7 +98,7 @@ model municipio {
   idMunicipios        Int           @id @default(autoincrement())
   nombreMunicipio     String
   provinciaRelacionId Int
-  idUsuarioCreacion   Int
+  idUsuarioCreacion   String[]
   estadoRegistro      Boolean       @default(true)
   provinciaRelacion   provincia     @relation(fields: [provinciaRelacionId], references: [idProvincia])
   centro              centro[]
@@ -117,7 +117,7 @@ model laboratorio {
   estadoRegistro        Boolean                 @default(true)
   municipioRelacion     municipio               @relation(fields: [municipioRelacionId], references: [idMunicipios])
   resultadosLaboratorio resultadosLaboratorio[]
-  idUsuarioCreacion     Int
+  idUsuarioCreacion     String[]
   user                  user[]
 }
 
@@ -131,7 +131,7 @@ model centro {
   area                   String
   estadoRegistro         Boolean           @default(true)
   contacto               String
-  idUsuarioCreacion      Int
+  idUsuarioCreacion      String[]
   redPertenenciaId       Int?
   redPertenenciaRelacion redes?            @relation(fields: [redPertenenciaId], references: [idRedes])
   manejoCartillas        manejoCartillas[]
@@ -142,7 +142,7 @@ model redes {
   idRedes           Int               @id @default(autoincrement())
   nombreRedes       String
   estadoRegistro    Boolean           @default(true)
-  idUsuarioCreacion Int
+  idUsuarioCreacion String[]
   manejoCartillas   manejoCartillas[]
   centro            centro[]
   hospital          hospital[]
@@ -160,7 +160,7 @@ model hospital {
   municipioRelacion      municipio @relation(fields: [municipioRelacionId], references: [idMunicipios])
   redPertenenciaId       Int?
   redPertenenciaRelacion redes?    @relation(fields: [redPertenenciaId], references: [idRedes])
-  idUsuarioCreacion      Int
+  idUsuarioCreacion      String[]
   estadoRegistro         Boolean   @default(true)
 }
 
@@ -181,7 +181,7 @@ model manejoCartillas {
   telefono             String?
   resividoPor          String? // aca no seria una relacion de usuarios donde filtremos a los que son encargados o un rol que relice estas acciones ?
   estadoRegistro       Boolean    @default(true)
-  idUsuarioCreacion    Int
+  idUsuarioCreacion    String[]
 }
 
 enum TipoManejo {
@@ -192,7 +192,7 @@ enum TipoManejo {
 
 model user {
   idUser                Int                     @id @default(autoincrement())
-  email                 String
+  email                 String                  @unique
   password              String
   estadoRegistro        Boolean                 @default(true)
   hospitalRelacionId    Int?
@@ -202,5 +202,5 @@ model user {
   centroRelacion        centro?                 @relation(fields: [centroRelacionId], references: [idCentro])
   laboratorioRelacion   laboratorio?            @relation(fields: [laboratorioRelacionId], references: [idLaboratorio])
   resultadosLaboratorio resultadosLaboratorio[]
-  idUsuarioCreacion     Int
+  idUsuarioCreacion     String[]
 }

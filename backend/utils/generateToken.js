@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 
 function generateToken(user) {
+  console.log(user)
   const payload = { userId: user.idUser };
 
   if (user.hospitalRelacionId) {

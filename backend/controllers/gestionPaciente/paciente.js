@@ -1,14 +1,11 @@
-const { getAllGestion } = require("../../utils/layautEntidades");
+const { createData, getAllData } = require("../../utils/layautEntidades");
+const { PrismaClient } = require("@prisma/client");
+const prisma = new PrismaClient();
 
-// function extractCityFromToken(req) {
-//   const token = req.headers.authorization.split(' ')[1];
-//   const decoded = jwt.verify(token, 'pesquizasv2'); 
-//   return decoded.ciudad; 
-// }
 const pacienteController = {
   getAllpacientes: async (req, res) => {
     try {
-      const getAll = await getAllGestion("paciente");
+      const getAll = await getAllData("paciente");
       res
         .status(200)
         .json({ message: "datos obtenidos correctamente ", data: getAll });
@@ -16,6 +13,17 @@ const pacienteController = {
       res.status(500).json({ error: error.message });
     }
   },
-
+  createPacientes: async (req, res) => {
+    try {
+      const newData = await createData("paciente", req.body);
+      res
+        .status(201)
+        .json({ message: "Datos creados correctamente", data: newData });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ error: error.message });
+    }
+  },
+  getPacientesFilterCentro: async (req, res) => {},
 };
 module.exports = pacienteController;

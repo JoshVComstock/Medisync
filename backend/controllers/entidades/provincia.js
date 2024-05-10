@@ -8,7 +8,7 @@ const {
 const provinciaController = {
   getAllProvincia: async (req, res) => {
     try {
-      const getAll = await getAllData("provincia");
+      const getAll = await getAllData(req, "provincia");
       res
         .status(200)
         .json({ message: "datos obtenidos correctamente ", data: getAll });
@@ -19,7 +19,9 @@ const provinciaController = {
 
   createProvincia: async (req, res) => {
     try {
-      const newData = await createData("provincia", req.body);
+      const dataToken = req.tokenDecodificado;
+
+      const newData = await createData("provincia", req.body, dataToken);
       res
         .status(201)
         .json({ message: "Datos creados correctamente", data: newData });

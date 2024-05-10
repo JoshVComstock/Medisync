@@ -6,16 +6,15 @@ const bcrypt = require("bcryptjs");
 const Logincontroller = async (req, res) => {
   try {
     const { email, password } = req.body;
-    const userLog = await prisma.user.findMany({
+    const userLog = await prisma.user.findUnique({
       where: {
         email,
       },
     });
-    console.log(userLog);
     if (!userLog) {
       return res.status(401).json({ message: "Usuario no encontrado" });
     }
-    user = userLog[0];
+    user = userLog;
 
     const passwordMatch = await bcrypt.compare(password, user.password);
     if (!passwordMatch) {

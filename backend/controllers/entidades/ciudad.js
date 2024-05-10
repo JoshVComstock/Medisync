@@ -1,9 +1,13 @@
-
-const { getAllData, createData, updateData, deleteData } = require("../../utils/layautEntidades");
+const {
+  getAllData,
+  createData,
+  updateData,
+  deleteData,
+} = require("../../utils/layautEntidades");
 const departamentoController = {
   getAlldepartamento: async (req, res) => {
     try {
-      const getAll = await getAllData("departamento");
+      const getAll = await getAllData(req,"departamento");
       res
         .status(200)
         .json({ message: "datos obtenidos correctamente ", data: getAll });
@@ -14,7 +18,8 @@ const departamentoController = {
 
   createdepartamento: async (req, res) => {
     try {
-      const newData = await createData("departamento", req.body);
+      const dataToken = req.tokenDecodificado;
+      const newData = await createData("departamento", req.body , dataToken);
       res
         .status(201)
         .json({ message: "Datos creados correctamente", data: newData });

@@ -1,27 +1,45 @@
-const xprisma = require("../middleware/control_estado_middleware");
-
-const getAllData = async (tabla, filter) => {
+const { PrismaClient } = require("@prisma/client");
+const prisma = new PrismaClient();
+const getAllData = async (req, tabla) => {
   try {
-    if (!xprisma[tabla]) {
+    const extendedPrisma = req.extendedPrisma;
+    if (!extendedPrisma[tabla]) {
       throw new Error(`La tabla ${tabla} no es válida`);
     }
-    return await xprisma[tabla].findMany({
-      args: { where: { filter } },
-    });
+    return await extendedPrisma[tabla].findMany({});
   } catch (error) {
+    console.log(error);
     throw new Error(
       `Error al obtener los datos de la tabla ${tabla}: ${error.message}`
     );
   }
 };
 
-const createData = async (tabla, data) => {
+const createData = async (tabla, data, dataToken) => {
   try {
-    if (!xprisma[tabla]) {
+    if (!prisma[tabla]) {
       throw new Error(`La tabla ${tabla} no es válida`);
     }
-    return await xprisma[tabla].create({ data });
+    console.log(dataToken);
+    const userId = dataToken.userId;
+
+    if (dataToken.idHospital) {
+      relacion = `idHospital:${dataToken.idHospital}`;
+    }
+    if (dataToken.centroId) {
+      relacion = `centroId:${dataToken.centroId}`;
+    }
+    if (dataToken.idLaboratorio) {
+      relacion = `idLaboratorio:${dataToken.idLaboratorio}`;
+    }
+    return await prisma[tabla].create({
+      data: {
+        ...data,
+        idUsuarioCreacion: [`userId:${userId}`, relacion],
+      },
+    });
   } catch (error) {
+    console.log(error);
     throw new Error(
       `Error al crear datos en la tabla ${tabla}: ${error.message}`
     );
@@ -29,10 +47,10 @@ const createData = async (tabla, data) => {
 };
 const updateData = async (tabla, data, id) => {
   try {
-    if (!xprisma[tabla]) {
+    if (!prisma[tabla]) {
       throw new Error(`La tabla ${tabla} no es válida`);
     }
-    return await xprisma[tabla].update({
+    return await prisma[tabla].update({
       where: id,
       data,
     });
@@ -44,10 +62,10 @@ const updateData = async (tabla, data, id) => {
 };
 const deleteData = async (tabla, id) => {
   try {
-    if (!xprisma[tabla]) {
+    if (!prisma[tabla]) {
       throw new Error(`La tabla ${tabla} no es válida`);
     }
-    return await xprisma[tabla].delete({
+    return await prisma[tabla].delete({
       where: id,
     });
   } catch (error) {

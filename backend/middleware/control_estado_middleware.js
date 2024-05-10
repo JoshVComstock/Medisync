@@ -1,18 +1,29 @@
-const { PrismaClient } = require('@prisma/client');
+const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-const xprisma = prisma.$extends({
-  query: {
-    $allModels: {
-      findMany({ args, query }) {
-        args.where = {
-          ...args.where,
-          estadoRegistro: true,
-        };
-        return query(args);
-      }
-    }
-  }
-});
+function xprismaMiddleware(req, res, next) {
+  const tokenInfo = req.tokenDecodificado;
+  console.log(tokenInfo);
+  const extendedPrisma = prisma.$extends({
+    query: {
+      $allModels: {
+        findMany({ args, query }) {
+          const { centroId } = tokenInfo;
+          args.where = {
+            ...args.where,
+            estadoRegistro: true,
+            idUsuarioCreacion: {
+              has: `centroId:${centroId}`,
+            },
+          };
+          return query(args);
+        },
+      },
+    },
+  });
 
-module.exports = xprisma;
+  req.extendedPrisma = extendedPrisma;
+  next();
+}
+
+module.exports = { xprismaMiddleware };
