@@ -16,10 +16,30 @@ const getAllData = async (req, tabla) => {
   }
 };
 
+const getAllDataID = async (req, tabla, id) => {
+  try {
+    const extendedPrisma = req.extendedPrisma;
+    if (!extendedPrisma[tabla]) {
+      throw new Error(`La tabla ${tabla} no es válida`);
+    }
+    return await extendedPrisma[tabla].findMany({
+      where: { id },
+    });
+  } catch (error) {
+    console.log(error);
+    throw new Error(
+      `Error al obtener los datos de la tabla ${tabla}: ${error.message}`
+    );
+  }
+};
+
 const createData = async (tabla, data, dataToken) => {
   try {
     if (!prisma[tabla]) {
       throw new Error(`La tabla ${tabla} no es válida`);
+    }
+    if (!dataToken) {
+      throw new Error(`no se tiene acceso al token`);
     }
     const userId = dataToken.userId;
     const relacion = obtenerRelacion(dataToken);
@@ -66,4 +86,4 @@ const deleteData = async (tabla, id) => {
   }
 };
 
-module.exports = { getAllData, createData, updateData, deleteData };
+module.exports = { getAllData,getAllDataID, createData, updateData, deleteData };

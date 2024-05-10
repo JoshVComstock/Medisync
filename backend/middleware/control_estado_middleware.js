@@ -9,7 +9,6 @@ function xprismaMiddleware(req, res, next) {
     query: {
       $allModels: {
         findMany({ args, query }) {
-          const { centroId } = tokenInfo;
           args.where = {
             ...args.where,
             estadoRegistro: true,

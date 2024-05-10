@@ -3,7 +3,7 @@ const {
   createData,
   updateData,
   deleteData,
-} = require("../../utils/layautEntidades");
+} = require("../../../utils/layautEntidades");
 
 const centroController = {
   getAllCentro: async (req, res) => {

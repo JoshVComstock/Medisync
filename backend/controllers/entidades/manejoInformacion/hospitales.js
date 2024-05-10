@@ -32,7 +32,7 @@ const hospitalController = {
     try {
       const id = Number(req.params.id);
       const updateR = await updateData("hospital", req.body, {
-        idCentro: id,
+        idHospital: id,
       });
       res.status(201).json({
         message: "Datos actualizados correctamente",
@@ -46,7 +46,7 @@ const hospitalController = {
     try {
       const id = Number(req.params.id);
       const deleteC = await deleteData("hospital", {
-        idCentro: id,
+        idHospital: id,
       });
       res.status(201).json({
         message: "Datos elimiados correctamente",

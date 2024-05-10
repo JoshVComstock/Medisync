@@ -3,12 +3,12 @@ const {
   createData,
   updateData,
   deleteData,
-} = require("../../../utils/layautEntidades");
+} = require("../../utils/layautEntidades");
 
-const centroController = {
-  getAllCentro: async (req, res) => {
+const gestionCartillas = {
+  getAllRegistros: async (req, res) => {
     try {
-      const getAll = await getAllData("centro");
+      const getAll = await getAllData("manejoCartillas");
       res
         .status(200)
         .json({ message: "datos obtenidos correctamente ", data: getAll });
@@ -17,10 +17,10 @@ const centroController = {
     }
   },
 
-  createcentro: async (req, res) => {
+  createRegistro: async (req, res) => {
     try {
       const dataToken = req.tokenDecodificado;
-      const newData = await createData("centro", req.body, dataToken);
+      const newData = await createData("manejoCartillas", req.body, dataToken);
       res
         .status(201)
         .json({ message: "Datos creados correctamente", data: newData });
@@ -28,25 +28,29 @@ const centroController = {
       res.status(500).json({ error: error.message });
     }
   },
-  updatecentro: async (req, res) => {
+  updatemanejoCartillas: async (req, res) => {
     try {
       const id = Number(req.params.id);
-      const updateR = await updateData("centro", req.body, {
-        idCentro: id,
-      });
+      const updatemanejoCartillas = await updateData(
+        "manejoCartillas",
+        req.body,
+        {
+          idManejoCartilla: id,
+        }
+      );
       res.status(201).json({
         message: "Datos actualizados correctamente",
-        data: updateR,
+        data: updatemanejoCartillas,
       });
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
   },
-  deletecentro: async (req, res) => {
+  deletemanejoCartillases: async (req, res) => {
     try {
       const id = Number(req.params.id);
-      const deleteC = await deleteData("centro", {
-        idCentro: id,
+      const deleteC = await deleteData("manejoCartillas", {
+        idManejoCartilla: id,
       });
       res.status(201).json({
         message: "Datos elimiados correctamente",
@@ -58,4 +62,4 @@ const centroController = {
   },
 };
 
-module.exports = { centroController };
+module.exports = { gestionCartillas };
