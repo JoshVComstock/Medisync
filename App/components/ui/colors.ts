@@ -7,7 +7,10 @@ const colors = {
     text: '#000',
     textLite: '#fff',
     gray:"#EAEBEA",
-    acent :"#DFE9F3"
+    acent :"#DFE9F3",
+    negativo:"green",
+    positivo:"#d64269",
+    sospechoso:"#eeeeee"
   };
   
   export default colors;

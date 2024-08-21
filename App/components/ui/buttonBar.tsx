@@ -1,34 +1,49 @@
-import { View, Text, StyleSheet, Pressable } from "react-native";
+import { View, StyleSheet, Pressable } from "react-native";
 import React from "react";
 import colors from "./colors";
 import { cards } from "../../app/pages/seccions/secciones";
 import { FontAwesome } from "@expo/vector-icons";
-import { router } from "expo-router";
+import { router, usePathname } from "expo-router";
 
 const ButtonBar = () => {
+  const pathname = usePathname();
+
   const navigate = (path: string): void => {
     router.push(path);
   };
 
   return (
     <View style={styles.navContain}>
-      {cards.map((card, index) => (
-        <Pressable
-          style={[
-            styles.contentIcon,
-            index === cards.length - 1 && styles.lastIcon,
-          ]}
-          onPress={() => navigate(card.path)}
-          key={card.id}
-        >
-          <FontAwesome name={card.icon} size={24} color={colors.textLite} />
-        </Pressable>
-      ))}
+      {cards.map((card, index) => {
+        const isActive = pathname === card.path;
+        return (
+          <Pressable
+            style={[
+              styles.contentIcon,
+              index === cards.length - 1 && styles.lastIcon,
+            ]}
+            onPress={() => navigate(card.path)}
+            key={card.id}
+          >
+            <FontAwesome
+              name={card.icon}
+              size={24}
+              color={isActive ? colors.primary : colors.textLite}
+              style={{
+                backgroundColor: isActive ? colors.acent : "transparent",
+                padding: isActive ? 4 : 0,
+                borderRadius: isActive ? 4 : 0,
+              }}
+            />
+          </Pressable>
+        );
+      })}
     </View>
   );
 };
 
 export default ButtonBar;
+
 const styles = StyleSheet.create({
   navContain: {
     position: "absolute",
@@ -52,5 +67,12 @@ const styles = StyleSheet.create({
   },
   lastIcon: {
     borderRightWidth: 0,
+  },
+  activeIcon: {
+    // backgroundColor: colors.textLite,
+    // width: "33%",
+    // height: 30,
+    padding: 8,
+    borderRadius: 4,
   },
 });

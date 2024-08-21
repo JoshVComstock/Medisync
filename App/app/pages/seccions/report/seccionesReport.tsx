@@ -1,7 +1,7 @@
-import { View, Text, StyleSheet } from "react-native";
+import { Text, StyleSheet } from "react-native";
 import React from "react";
-import colors from "../../../../components/ui/colors";
 import Animated from "react-native-reanimated";
+import colors from "../../../../components/ui/colors";
 
 interface propsSecciones {
   title: string;
@@ -21,13 +21,12 @@ const SeccionesReport = ({
       style={[
         styles.itemContainer,
         {
-          borderColor: color ? color : "#0002",
+          borderColor: "#0002",
           height: height,
-          // backgroundColor: height ? color : "",
         },
       ]}
     >
-      <Text style={styles.header}>{title}</Text>
+      <Text style={[{ color }, styles.header]}>{title}</Text>
       {children}
     </Animated.View>
   );
@@ -37,7 +36,7 @@ const styles = StyleSheet.create({
   itemContainer: {
     padding: 16,
     borderRadius: 8,
-    borderWidth: 1,
+    borderWidth: 2,
     marginVertical: 4,
   },
   header: {

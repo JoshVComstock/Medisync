@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, Pressable } from "react-native";
+import { Text, StyleSheet, Pressable } from "react-native";
 import { ResultadosLaboratorio } from "./interface";
 import colors from "../../../../components/ui/colors";
 import SeccionesReport from "./seccionesReport";
 import { FontAwesome } from "@expo/vector-icons";
-import Animated, { useSharedValue, withSpring } from "react-native-reanimated";
+import { useSharedValue, withSpring } from "react-native-reanimated";
 
 interface ResultItemProps {
   item: ResultadosLaboratorio;
@@ -17,11 +17,11 @@ const ResultItem = ({ item }: ResultItemProps) => {
   const colorRender = (resultado: string) => {
     switch (resultado) {
       case "positivo":
-        return colors.primary;
+        return colors.positivo;
       case "sospechoso":
-        return colors.secondary;
+        return colors.tercery;
       default:
-        return colors.acent;
+        return colors.negativo;
     }
   };
 
@@ -51,10 +51,10 @@ const ResultItem = ({ item }: ResultItemProps) => {
           <Text style={styles.label}>Fecha:</Text>
           {new Date(item.fechaResultado).toLocaleDateString()}
         </Text>
-        <Text>
-          <Text style={styles.label}>Resultado:</Text> {item.resultado}
+        <Text style={{ color: colorRender(item.resultado) }}>
+          <Text style={styles.label}>Resultado:</Text> {item.resultado} {""}
           <FontAwesome
-            name="circle-o-notch"
+            name="circle"
             size={15}
             color={colorRender(item.resultado)}
           />
@@ -120,6 +120,7 @@ const styles = StyleSheet.create({
   },
   label: {
     fontWeight: "bold",
+    // color:colors.textLite
   },
 });
 

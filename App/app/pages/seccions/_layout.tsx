@@ -14,7 +14,6 @@ export default function layout() {
 const styles = StyleSheet.create({
   contain: {
     flex: 1,
-    justifyContent: "center",
     alignItems: "center",
   },
 });

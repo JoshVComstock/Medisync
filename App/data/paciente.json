@@ -22,7 +22,7 @@
   {
     "idResultadosLaboratorio": 1,
     "fechaResultado": "2024-08-20T12:00:00Z",
-    "resultado": "positivo",
+    "resultado": "negativo",
     "observaciones": "Observaciones de ejemplo",
     "cartillaRelacion": {
       "codigoBarras": "1234567890",
@@ -42,7 +42,7 @@
   {
     "idResultadosLaboratorio": 1,
     "fechaResultado": "2024-08-20T12:00:00Z",
-    "resultado": "positivo",
+    "resultado": "sospechoso",
     "observaciones": "Observaciones de ejemplo",
     "cartillaRelacion": {
       "codigoBarras": "1234567890",

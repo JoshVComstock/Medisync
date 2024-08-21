@@ -11,21 +11,21 @@ type Card = {
 
 export const cards: Card[] = [
     {
-      id: 1,
-      name: "Resultados de laboratorio",
-      path: ROUTES.RESULTADOS,
-      icon: "flask",
-    },
-    {
-        id: 2,
+        id: 1,
         name: "Seguimiento",
-        path: ROUTES.RESULTADOS,
+        path: ROUTES.PAGES,
         icon: "eye",
+      },
+      {
+        id: 2,
+        name: "Resultados de laboratorio",
+        path: ROUTES.RESULTADOS,
+        icon: "flask",
       },
       {
         id: 3,
         name: "Alertas",
-        path: ROUTES.RESULTADOS,
+        path: ROUTES.SECCIONS,
         icon: "line-chart",
       },
   ];
