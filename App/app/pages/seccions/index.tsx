@@ -10,6 +10,7 @@ const Secciones = () => {
   const navigate = (path: string): void => {
     router.push(path);
   };
+  
 
   const renderItem = ({ item }: { item: (typeof cards)[0] }) => (
     <Cards

@@ -25,8 +25,8 @@ const ResultItem = ({ item }: ResultItemProps) => {
     }
   };
 
-  const height = useSharedValue(120);
-
+const height = useSharedValue(120);
+ 
   const handlePress = () => {
     setVisible(!visible);
     height.value = withSpring(visible ? 120 : 480);

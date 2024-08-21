@@ -18,45 +18,5 @@
       "nombreMadre": "Ana Pérez",
       "telefono": ["123456789", "987654321"]
     }
-  },
-  {
-    "idResultadosLaboratorio": 1,
-    "fechaResultado": "2024-08-20T12:00:00Z",
-    "resultado": "negativo",
-    "observaciones": "Observaciones de ejemplo",
-    "cartillaRelacion": {
-      "codigoBarras": "1234567890",
-      "numeroMuestra": 1
-    },
-    "pacienteRelacion": {
-      "nombrePaciente": "Juan Pérez",
-      "edadGestional": ["32", "5"],
-      "fechaNacimiento": "2024-08-01T00:00:00Z",
-      "pesoNacimiento": 3200
-    },
-    "madreRelacion": {
-      "nombreMadre": "Ana Pérez",
-      "telefono": ["123456789", "987654321"]
-    }
-  },
-  {
-    "idResultadosLaboratorio": 1,
-    "fechaResultado": "2024-08-20T12:00:00Z",
-    "resultado": "sospechoso",
-    "observaciones": "Observaciones de ejemplo",
-    "cartillaRelacion": {
-      "codigoBarras": "1234567890",
-      "numeroMuestra": 1
-    },
-    "pacienteRelacion": {
-      "nombrePaciente": "Juan Pérez",
-      "edadGestional": ["32", "5"],
-      "fechaNacimiento": "2024-08-01T00:00:00Z",
-      "pesoNacimiento": 3200
-    },
-    "madreRelacion": {
-      "nombreMadre": "Ana Pérez",
-      "telefono": ["123456789", "987654321"]
-    }
   }
 ]

@@ -1,13 +1,13 @@
 import { create } from 'zustand'
 
 interface UserState {
-  user: string
+  userid: string
   setUser: (newUser: string) => void
 }
 
 const useUserContext = create<UserState>((set) => ({
-  user: "",
-  setUser: (newUser) => set(() => ({ user: newUser })),
+  userid: "",
+  setUser: (newUser) => set(() => ({ userid: newUser })),
 }));
 
 export default useUserContext;

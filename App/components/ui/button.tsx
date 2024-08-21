@@ -30,10 +30,10 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "transparent",
     borderRadius: 8,
-    backgroundColor: colors.acent,
+    backgroundColor: colors.secondary,
   },
   text: {
-    color: colors.primary,
+    color: colors.textLite,
     fontWeight: "bold",
   },
 });
